@@ -1,5 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import axios from 'axios'
+
+import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button/index'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Card from '@material-ui/core/Card'
@@ -9,6 +11,7 @@ import { amber } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/core/styles'
 import { styled } from '@material-ui/core/styles'
 import '../Fonts/SourceCodePro-Light.ttf'
+import Redirect from "react-router-dom/es/Redirect";
 
 const MyCard = styled(Card)({
 
@@ -36,6 +39,7 @@ const MyButton = styled(Button)({
     width: 100,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     justifyContent:"center",
+    textDecoration:"none"
     // margin:"auto"
 
 })
@@ -107,11 +111,8 @@ function Login(){
         }
         else {
             axios.post(`/api/login`, userObject)
-                .then(res => console.log(res.data))
+                .then(<Link to='/home' />)
                 .catch(err => console.error(err))
-
-            alert("You are submitting " + username)
-
         }
 
         setErrorMessage(err)
@@ -150,8 +151,8 @@ function Login(){
                     <br/>
                     <br/>
                         {errorMessage}
-                    <MyButton label="Submit" primary={true} style={style} onClick={handleClick}>Submit</MyButton>
 
+                    <MyButton label="Submit" primary="true" style={style} onClick={handleClick}>Submit</MyButton>
                     </form>
                 </div>
         </MyCard>
