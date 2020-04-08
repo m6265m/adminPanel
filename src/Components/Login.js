@@ -80,17 +80,15 @@ function Login(){
     const [password,setPassword]=useState('')
     const [errorMessage,setErrorMessage]=useState('')
 
-function myChangeHandler(event){
-    let nam = event.target.name
-    let val = event.target.value
 
-    setUserName({[nam]:val});
-}
     //POSTING USERNAME AND PASSWORD TO DB
     function handleClick(){
 
-        let password = password
-        let username = username
+        const userObject = {
+            userName: username,
+            password: password
+        }
+
         let letters = /^[0-9a-zA-Z]+$/
         let err= ''
 
@@ -108,9 +106,9 @@ function myChangeHandler(event){
             err = <strong>Please fill the fields to proceed.</strong>
         }
         else {
-            // axios.post(`/api/form`, userObject)
-            //     .then(res => console.log(res.data))
-            //     .catch(err => console.error(err))
+            axios.post(`/api/login`, userObject)
+                .then(res => console.log(res.data))
+                .catch(err => console.error(err))
 
             alert("You are submitting " + username)
 
@@ -126,7 +124,7 @@ function myChangeHandler(event){
             <MyCard className='card'>
 
                 <div>
-<h1>Login</h1>
+                    <h1>Login</h1>
                     <MyAvatar/>
                     <h4>Administrator</h4>
                     <br/>
@@ -137,8 +135,7 @@ function myChangeHandler(event){
                         type="email"
                         label="Email"
                         placeholder="john@example.com"
-                        floatingLabelText="Username"
-                        onChange = {myChangeHandler}
+                        onChange = {event => setUserName(event.target.value)}
                     />
                     <br/>
                     <br/>
@@ -147,7 +144,7 @@ function myChangeHandler(event){
                         id="standard-password-input"
                         label="Password"
                         type="password"
-                        onChange = {myChangeHandler}
+                        onChange = {event => setPassword(event.target.value)}
                     />
                     <br/>
                     <br/>
